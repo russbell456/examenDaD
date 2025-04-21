@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-pedido-service
+    name: rdcm-estudiante-service
   profiles:
     active: development
   config:
