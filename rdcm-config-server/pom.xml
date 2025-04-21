@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>ms-config-server</artifactId>
+    <artifactId>rdcm-config-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ms-config-server</name>
-    <description>ms-config-server</description>
+    <name>rdcm-config-server</name>
+    <description>rdcm-config-server</description>
     <url/>
     <licenses>
         <license/>
