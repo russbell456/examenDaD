@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-gateway-service
+    name: rdcm-gateway-service
   profiles:
     active: development
   config:
