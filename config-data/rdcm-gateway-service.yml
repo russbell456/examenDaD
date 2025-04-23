@@ -25,5 +25,9 @@ spring:
           uri: lb://rdcm-estudiante-service
           predicates:
             - Path=/estudiantes/**
+        - id: rdcm-matricula-service
+          uri: lb://rdcm-matricula-service
+          predicates:
+            - Path=/matriculas/**
 
 
