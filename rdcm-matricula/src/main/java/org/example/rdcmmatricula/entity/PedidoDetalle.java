@@ -1,7 +1,7 @@
 package org.example.rdcmmatricula.entity;
 
 import jakarta.persistence.*;
-import org.example.rdcmmatricula.dato.Producto;
+import org.example.rdcmmatricula.dato.Estudiante;
 
 @Entity
 public class PedidoDetalle {
@@ -13,7 +13,7 @@ public class PedidoDetalle {
     private Integer productoId;
 
     @Transient
-    private Producto producto;
+    private Estudiante estudiante;
 
     public PedidoDetalle() {
         this.cantidad = 0.0;
@@ -60,11 +60,11 @@ public class PedidoDetalle {
     }
 
     // ✅ Métodos correctos para el campo 'producto'
-    public Producto getProducto() {
-        return producto;
+    public Estudiante getProducto() {
+        return estudiante;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setProducto(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 }

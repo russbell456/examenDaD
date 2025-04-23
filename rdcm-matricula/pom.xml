@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>ms-pedido</artifactId>
+    <artifactId>rdcm-matricula</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>rdcm-matricula</name>
     <description>Microservicio de matricula</description>
