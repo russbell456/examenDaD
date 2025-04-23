@@ -18,11 +18,11 @@ spring:
           enable: true
       routes:
         - id: rdcm-curso-service
-          uri: lb://ms-curso-service
+          uri: lb://rdcm-curso-service
           predicates:
             - Path=/cursos/**
         - id: rdcm-estudiante-service
-          uri: lb://ms-estudiante-service
+          uri: lb://rdcm-estudiante-service
           predicates:
             - Path=/estudiantes/**
 
