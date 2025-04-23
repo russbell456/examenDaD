@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>ms_catalogo</artifactId>
+    <artifactId>rdcm-curso</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>rdcm-curso</name>
     <description>rdcm-curso
