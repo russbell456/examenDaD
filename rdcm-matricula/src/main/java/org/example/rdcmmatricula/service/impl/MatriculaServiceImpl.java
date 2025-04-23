@@ -21,10 +21,10 @@ public class MatriculaServiceImpl implements MatriculaService {
     private MatriculaRepository repository;
 
     @Autowired
-    private EstudianteFeign estudianteFeign;
+    private EstudianteFeing estudianteFeing;
 
     @Autowired
-    private CursoFeign cursoFeign;
+    private CursoFeing cursoFeing;
 
     @Override
     public List<Matricula> listar() {
@@ -38,8 +38,8 @@ public class MatriculaServiceImpl implements MatriculaService {
 
     @Override
     public Matricula registrar(Matricula matricula) {
-        Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
-        Curso curso = cursoFeign.obtenerPorId(matricula.getCursoId()).getBody();
+        Estudiante estudiante = estudianteFeing.obtenerPorId(matricula.getEstudianteId()).getBody();
+        Curso curso = cursoFeing.obtenerPorId(matricula.getCursoId()).getBody();
 
         if (estudiante == null || !"Activo".equals(estudiante.getEstado())) {
             throw new RuntimeException("Estudiante no válido o inactivo");
