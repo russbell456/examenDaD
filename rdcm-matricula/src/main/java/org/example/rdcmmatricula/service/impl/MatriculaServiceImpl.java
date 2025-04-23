@@ -3,8 +3,8 @@ package org.example.rdcmmatricula.service.impl;
 import org.example.rdcmmatricula.dato.Curso;
 import org.example.rdcmmatricula.dato.Estudiante;
 import org.example.rdcmmatricula.entity.Matricula;
-import org.example.rdcmmatricula.feing.CursoFeing;
-import org.example.rdcmmatricula.feing.EstudianteFeing;
+import org.example.rdcmmatricula.feign.CursoFeign;
+import org.example.rdcmmatricula.feign.EstudianteFeign;
 import org.example.rdcmmatricula.repository.MatriculaRepository;
 import org.example.rdcmmatricula.service.MatriculaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,10 @@ public class MatriculaServiceImpl implements MatriculaService {
     private MatriculaRepository repository;
 
     @Autowired
-    private EstudianteFeing estudianteFeing;
+    private EstudianteFeign estudianteFeign;
 
     @Autowired
-    private CursoFeing cursoFeing;
+    private CursoFeign cursoFeign;
 
     @Override
     public List<Matricula> listar() {
@@ -38,8 +38,8 @@ public class MatriculaServiceImpl implements MatriculaService {
 
     @Override
     public Matricula registrar(Matricula matricula) {
-        Estudiante estudiante = estudianteFeing.obtenerPorId(matricula.getEstudianteId()).getBody();
-        Curso curso = cursoFeing.obtenerPorId(matricula.getCursoId()).getBody();
+        Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
+        Curso curso = cursoFeign.obtenerPorId(matricula.getCursoId()).getBody();
 
         if (estudiante == null || !"Activo".equals(estudiante.getEstado())) {
             throw new RuntimeException("Estudiante no válido o inactivo");
