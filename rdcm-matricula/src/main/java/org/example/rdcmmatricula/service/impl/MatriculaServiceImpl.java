@@ -29,12 +29,36 @@ public class MatriculaServiceImpl implements MatriculaService {
 
     @Override
     public List<Matricula> listar() {
-        return repository.findAll();
+        List<Matricula> matriculas = repository.findAll();
+
+        for (Matricula matricula : matriculas) {
+            Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
+            matricula.setEstudiante(estudiante);
+
+            for (MatriculaDetalle detalle : matricula.getDetalles()) {
+                Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
+                detalle.setCurso(curso);
+            }
+        }
+
+        return matriculas;
     }
 
     @Override
     public Optional<Matricula> obtener(Integer id) {
-        return repository.findById(id);
+        Optional<Matricula> optionalMatricula = repository.findById(id);
+
+        optionalMatricula.ifPresent(matricula -> {
+            Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
+            matricula.setEstudiante(estudiante);
+
+            for (MatriculaDetalle detalle : matricula.getDetalles()) {
+                Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
+                detalle.setCurso(curso);
+            }
+        });
+
+        return optionalMatricula;
     }
 
     @Override
@@ -44,7 +68,6 @@ public class MatriculaServiceImpl implements MatriculaService {
             throw new RuntimeException("Estudiante no válido o inactivo");
         }
 
-        // Usamos el ciclo del estudiante para guardar
         matricula.setCiclo(estudiante.getCiclo());
         matricula.setFecha(LocalDate.now());
 
@@ -53,7 +76,6 @@ public class MatriculaServiceImpl implements MatriculaService {
             if (curso == null || curso.getCapacidad() <= 0) {
                 throw new RuntimeException("Curso no disponible o sin capacidad");
             }
-            // opcional: setCurso, si quieres mostrar luego
             detalle.setCurso(curso);
         }
 
