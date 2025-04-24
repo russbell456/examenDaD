@@ -5,16 +5,16 @@ public class Estudiante {
     private String nombre;
     private String carrera;
     private String estado;
-    private Integer ciclo;
+    private Integer cicloActual; // Cambiado de 'ciclo' a 'cicloActual'
 
     public Estudiante() {}
 
-    public Estudiante(Integer id, String nombre, String carrera, String estado, Integer ciclo) {
+    public Estudiante(Integer id, String nombre, String carrera, String estado, Integer cicloActual) {
         this.id = id;
         this.nombre = nombre;
         this.carrera = carrera;
         this.estado = estado;
-        this.ciclo = ciclo;
+        this.cicloActual = cicloActual;
     }
 
     public Integer getId() {
@@ -49,11 +49,11 @@ public class Estudiante {
         this.estado = estado;
     }
 
-    public Integer getCiclo() {
-        return ciclo;
+    public Integer getCicloActual() {
+        return cicloActual;
     }
 
-    public void setCiclo(Integer ciclo) {
-        this.ciclo = ciclo;
+    public void setCicloActual(Integer cicloActual) {
+        this.cicloActual = cicloActual;
     }
 }

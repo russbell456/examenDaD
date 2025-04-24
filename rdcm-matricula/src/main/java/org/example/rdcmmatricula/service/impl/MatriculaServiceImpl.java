@@ -68,7 +68,7 @@ public class MatriculaServiceImpl implements MatriculaService {
             throw new RuntimeException("Estudiante no válido o inactivo");
         }
 
-        matricula.setCiclo(estudiante.getCiclo());
+        matricula.setCiclo(estudiante.getCicloActual());
         matricula.setFecha(LocalDate.now());
 
         for (MatriculaDetalle detalle : matricula.getDetalles()) {
