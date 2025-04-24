@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class MatriculaServiceImpl implements MatriculaService {
 
@@ -63,22 +62,33 @@ public class MatriculaServiceImpl implements MatriculaService {
 
     @Override
     public Matricula registrar(Matricula matricula) {
+        // Obtener estudiante
         Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
+
+        // Verificar que el estudiante esté activo
         if (estudiante == null || !"Activo".equals(estudiante.getEstado())) {
-            throw new RuntimeException("Estudiante no válido o inactivo");
+            throw new RuntimeException("Estudiante no válido o inactivo, no se puede matricular.");
         }
 
+        // Establecer el ciclo del estudiante y la fecha
         matricula.setCiclo(estudiante.getCicloActual());
         matricula.setFecha(LocalDate.now());
 
+        // Verificar los cursos
         for (MatriculaDetalle detalle : matricula.getDetalles()) {
             Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
-            if (curso == null || curso.getCapacidad() <= 0) {
-                throw new RuntimeException("Curso no disponible o sin capacidad");
+
+            // Verificar si el curso existe y si tiene capacidad disponible
+            if (curso == null) {
+                throw new RuntimeException("Curso no encontrado.");
+            }
+            if (curso.getCapacidad() <= 0) {
+                throw new RuntimeException("Curso sin capacidad, no se puede matricular.");
             }
             detalle.setCurso(curso);
         }
 
+        // Guardar matrícula
         return repository.save(matricula);
     }
 
