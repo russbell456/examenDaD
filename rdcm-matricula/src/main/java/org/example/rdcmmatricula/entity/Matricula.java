@@ -1,36 +1,39 @@
 package org.example.rdcmmatricula.entity;
 
 import jakarta.persistence.*;
-import org.example.rdcmmatricula.dato.Curso;
 import org.example.rdcmmatricula.dato.Estudiante;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Matricula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Integer estudianteId;
-    private Integer cursoId;
-    private Integer ciclo;
     private LocalDate fecha;
+    private Integer ciclo;
 
     @Transient
     private Estudiante estudiante;
 
-    @Transient
-    private Curso curso;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "matricula_id")  // clave foránea en MatriculaDetalle
+    private List<MatriculaDetalle> detalles;
 
     public Matricula() {}
 
-    public Matricula(Integer id, Integer estudianteId, Integer cursoId, Integer ciclo, LocalDate fecha) {
+    public Matricula(Integer id, Integer estudianteId, Integer ciclo, LocalDate fecha, List<MatriculaDetalle> detalles) {
         this.id = id;
         this.estudianteId = estudianteId;
-        this.cursoId = cursoId;
         this.ciclo = ciclo;
         this.fecha = fecha;
+        this.detalles = detalles;
     }
+
+    // === Getters y setters ===
 
     public Integer getId() {
         return id;
@@ -48,12 +51,12 @@ public class Matricula {
         this.estudianteId = estudianteId;
     }
 
-    public Integer getCursoId() {
-        return cursoId;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setCursoId(Integer cursoId) {
-        this.cursoId = cursoId;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public Integer getCiclo() {
@@ -64,14 +67,6 @@ public class Matricula {
         this.ciclo = ciclo;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
     public Estudiante getEstudiante() {
         return estudiante;
     }
@@ -80,11 +75,11 @@ public class Matricula {
         this.estudiante = estudiante;
     }
 
-    public Curso getCurso() {
-        return curso;
+    public List<MatriculaDetalle> getDetalles() {
+        return detalles;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setDetalles(List<MatriculaDetalle> detalles) {
+        this.detalles = detalles;
     }
 }

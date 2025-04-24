@@ -22,7 +22,9 @@ public class MatriculaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Matricula> obtener(@PathVariable Integer id) {
-        return matriculaService.obtener(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return matriculaService.obtener(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

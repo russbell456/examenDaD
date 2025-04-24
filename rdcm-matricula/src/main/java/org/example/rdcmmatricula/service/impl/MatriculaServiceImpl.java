@@ -3,6 +3,7 @@ package org.example.rdcmmatricula.service.impl;
 import org.example.rdcmmatricula.dato.Curso;
 import org.example.rdcmmatricula.dato.Estudiante;
 import org.example.rdcmmatricula.entity.Matricula;
+import org.example.rdcmmatricula.entity.MatriculaDetalle;
 import org.example.rdcmmatricula.feign.CursoFeign;
 import org.example.rdcmmatricula.feign.EstudianteFeign;
 import org.example.rdcmmatricula.repository.MatriculaRepository;
@@ -39,18 +40,23 @@ public class MatriculaServiceImpl implements MatriculaService {
     @Override
     public Matricula registrar(Matricula matricula) {
         Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
-        Curso curso = cursoFeign.obtenerPorId(matricula.getCursoId()).getBody();
-
         if (estudiante == null || !"Activo".equals(estudiante.getEstado())) {
             throw new RuntimeException("Estudiante no válido o inactivo");
         }
 
-        if (curso == null || curso.getCapacidad() <= 0) {
-            throw new RuntimeException("Curso no disponible");
+        // Usamos el ciclo del estudiante para guardar
+        matricula.setCiclo(estudiante.getCiclo());
+        matricula.setFecha(LocalDate.now());
+
+        for (MatriculaDetalle detalle : matricula.getDetalles()) {
+            Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
+            if (curso == null || curso.getCapacidad() <= 0) {
+                throw new RuntimeException("Curso no disponible o sin capacidad");
+            }
+            // opcional: setCurso, si quieres mostrar luego
+            detalle.setCurso(curso);
         }
 
-        matricula.setFecha(LocalDate.now());
-        matricula.setCiclo(curso.getCiclo());
         return repository.save(matricula);
     }
 
