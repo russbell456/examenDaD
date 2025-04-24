@@ -62,36 +62,41 @@ public class MatriculaServiceImpl implements MatriculaService {
 
     @Override
     public Matricula registrar(Matricula matricula) {
-        // Obtener estudiante
         Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
-
-        // Verificar que el estudiante esté activo
         if (estudiante == null || !"Activo".equals(estudiante.getEstado())) {
-            throw new RuntimeException("Estudiante no válido o inactivo, no se puede matricular.");
+            throw new RuntimeException("Estudiante no válido o inactivo");
         }
 
-        // Establecer el ciclo del estudiante y la fecha
+        // Verifica si el estudiante ya se matriculó al curso
+        List<Matricula> matriculasPrevias = repository.findByEstudianteId(estudiante.getId());
+        for (MatriculaDetalle detalleNuevo : matricula.getDetalles()) {
+            for (Matricula m : matriculasPrevias) {
+                for (MatriculaDetalle detalleExistente : m.getDetalles()) {
+                    if (detalleExistente.getCursoId().equals(detalleNuevo.getCursoId())) {
+                        throw new RuntimeException("El estudiante ya está matriculado en el curso ID: " + detalleNuevo.getCursoId());
+                    }
+                }
+            }
+        }
+
         matricula.setCiclo(estudiante.getCicloActual());
         matricula.setFecha(LocalDate.now());
 
-        // Verificar los cursos
         for (MatriculaDetalle detalle : matricula.getDetalles()) {
             Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
+            if (curso == null || curso.getCapacidad() <= 0) {
+                throw new RuntimeException("Curso no disponible o sin capacidad");
+            }
 
-            // Verificar si el curso existe y si tiene capacidad disponible
-            if (curso == null) {
-                throw new RuntimeException("Curso no encontrado.");
-            }
-            if (curso.getCapacidad() <= 0) {
-                throw new RuntimeException("Curso sin capacidad, no se puede matricular.");
-            }
+            // Reduce la capacidad en 1
+            curso.setCapacidad(curso.getCapacidad() - 1);
+            cursoFeign.actualizarCurso(curso.getId(), curso);
+
             detalle.setCurso(curso);
         }
 
-        // Guardar matrícula
         return repository.save(matricula);
     }
-
     @Override
     public void eliminar(Integer id) {
         repository.deleteById(id);
