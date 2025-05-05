@@ -36,10 +36,18 @@ public class MatriculaServiceImpl implements MatriculaService {
 
         for (Matricula matricula : matriculas) {
             Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
+            if (estudiante == null) {
+                estudiante = new Estudiante(); // Si no se obtiene estudiante, se crea un estudiante vacío.
+                estudiante.setEstado("Desconocido");
+            }
             matricula.setEstudiante(estudiante);
 
             for (MatriculaDetalle detalle : matricula.getDetalles()) {
                 Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
+                if (curso == null) {
+                    curso = new Curso(); // Si no se obtiene curso, se crea un curso vacío.
+                    curso.setNombre("Desconocido");
+                }
                 detalle.setCurso(curso);
             }
         }
@@ -54,10 +62,18 @@ public class MatriculaServiceImpl implements MatriculaService {
 
         optionalMatricula.ifPresent(matricula -> {
             Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
+            if (estudiante == null) {
+                estudiante = new Estudiante(); // Si no se obtiene estudiante, se crea un estudiante vacío.
+                estudiante.setEstado("Desconocido");
+            }
             matricula.setEstudiante(estudiante);
 
             for (MatriculaDetalle detalle : matricula.getDetalles()) {
                 Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
+                if (curso == null) {
+                    curso = new Curso(); // Si no se obtiene curso, se crea un curso vacío.
+                    curso.setNombre("Desconocido");
+                }
                 detalle.setCurso(curso);
             }
         });
@@ -126,3 +142,4 @@ public class MatriculaServiceImpl implements MatriculaService {
         throw new RuntimeException("El servicio de registro de matrícula no está disponible temporalmente");
     }
 }
+    

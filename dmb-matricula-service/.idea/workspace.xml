@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="02e09fa9-dd09-4388-a232-3cc08c80e17c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../config-data/rdcm-matricula-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-data/rdcm-matricula-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rdcm-matricula/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../rdcm-matricula/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../rdcm-matricula/src/main/java/org/example/rdcmmatricula/service/impl/MatriculaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../rdcm-matricula/src/main/java/org/example/rdcmmatricula/service/impl/MatriculaServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
