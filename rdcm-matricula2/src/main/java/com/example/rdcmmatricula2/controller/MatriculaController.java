@@ -1,13 +1,12 @@
-package com.example.dmbmatriculaservice.controller;
+package com.example.rdcmmatricula2.controller;
 
-import com.example.dmbmatriculaservice.entity.Matricula;
-import com.example.dmbmatriculaservice.service.MatriculaService;
+import com.example.rdcmmatricula2.entity.Matricula;
+import com.example.rdcmmatricula2.service.MatriculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/matriculas")

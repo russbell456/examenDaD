@@ -1,6 +1,6 @@
-package com.example.dmbmatriculaservice.service;
+package com.example.rdcmmatricula2.service;
 
-import com.example.dmbmatriculaservice.entity.Matricula;
+import com.example.rdcmmatricula2.entity.Matricula;
 
 import java.util.List;
 import java.util.Optional;

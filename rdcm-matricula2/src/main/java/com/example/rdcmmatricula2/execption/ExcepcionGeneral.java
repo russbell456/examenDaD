@@ -1,4 +1,4 @@
-package com.example.dmbmatriculaservice.execption;
+package com.example.rdcmmatricula2.execption;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

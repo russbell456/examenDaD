@@ -1,4 +1,4 @@
-package com.example.dmbmatriculaservice.dto;
+package com.example.rdcmmatricula2.dto;
 
 public class CursoDto {
     private Integer  id;

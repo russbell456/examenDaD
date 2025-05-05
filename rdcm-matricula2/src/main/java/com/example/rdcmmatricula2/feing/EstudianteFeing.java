@@ -1,13 +1,12 @@
-package com.example.dmbmatriculaservice.feing;
+package com.example.rdcmmatricula2.feing;
 
-import com.example.dmbmatriculaservice.dto.Estudiante;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import com.example.rdcmmatricula2.dto.Estudiante;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "dmb-student-service", path = "/estudiantes")
+@FeignClient(name = "rdcm-estudiante-service", path = "/estudiantes")
 public interface EstudianteFeing {
         @GetMapping("/{id}")
         ResponseEntity<Estudiante> obtenerPorId (@PathVariable Integer id);

@@ -1,6 +1,6 @@
-package com.example.dmbmatriculaservice.repository;
+package com.example.rdcmmatricula2.repository;
 
-import com.example.dmbmatriculaservice.entity.Matricula;
+import com.example.rdcmmatricula2.entity.Matricula;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 

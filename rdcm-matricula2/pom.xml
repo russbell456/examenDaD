@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>dmb-matricula-service</artifactId>
+	<artifactId>rdcm-matricula2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dmb-matricula-service</name>
-	<description>dmb-matricula-service</description>
+	<name>rdcm-matricula2</name>
+	<description>rdcm-matricula2</description>
 	<url/>
 	<licenses>
 		<license/>

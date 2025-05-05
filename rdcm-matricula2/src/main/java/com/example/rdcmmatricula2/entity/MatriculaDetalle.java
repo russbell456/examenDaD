@@ -1,7 +1,6 @@
-package com.example.dmbmatriculaservice.entity;
+package com.example.rdcmmatricula2.entity;
 
-import com.example.dmbmatriculaservice.dto.CursoDto;
-import com.example.dmbmatriculaservice.dto.CursoDto;
+import com.example.rdcmmatricula2.dto.CursoDto;
 import jakarta.persistence.*;
 
 

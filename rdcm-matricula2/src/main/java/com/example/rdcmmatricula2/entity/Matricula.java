@@ -1,6 +1,6 @@
-package com.example.dmbmatriculaservice.entity;
+package com.example.rdcmmatricula2.entity;
 
-import com.example.dmbmatriculaservice.dto.Estudiante;
+import com.example.rdcmmatricula2.dto.Estudiante;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
