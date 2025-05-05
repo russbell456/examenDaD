@@ -1,7 +1,7 @@
-package com.example.dmbmatriculaservice.entity;
+package org.example.rdcmmatricula.entity;
 
-import com.example.dmbmatriculaservice.dto.Estudiante;
 import jakarta.persistence.*;
+import org.example.rdcmmatricula.dato.Estudiante;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,6 +11,7 @@ public class Matricula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Integer estudianteId;
     private LocalDate fecha;
     private Integer ciclo;
@@ -22,16 +23,14 @@ public class Matricula {
     @JoinColumn(name = "matricula_id")  // clave foránea en MatriculaDetalle
     private List<MatriculaDetalle> detalles;
 
-    public Matricula() {
-
-    }
+    public Matricula() {}
 
     public Matricula(Integer id, Integer estudianteId, Integer ciclo, LocalDate fecha, List<MatriculaDetalle> detalles) {
         this.id = id;
         this.estudianteId = estudianteId;
-        this.fecha = fecha;
         this.ciclo = ciclo;
-        this.detalles=detalles;
+        this.fecha = fecha;
+        this.detalles = detalles;
     }
 
     // === Getters y setters ===

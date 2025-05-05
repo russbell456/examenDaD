@@ -1,11 +1,11 @@
-package com.example.dmbmatriculaservice.dto;
+package org.example.rdcmmatricula.dato;
 
 public class Estudiante {
     private Integer id;
     private String nombre;
     private String carrera;
     private String estado;
-    private Integer cicloActual;
+    private Integer cicloActual; // Cambiado de 'ciclo' a 'cicloActual'
 
     public Estudiante() {}
 

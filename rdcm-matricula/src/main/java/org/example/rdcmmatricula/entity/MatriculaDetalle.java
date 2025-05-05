@@ -1,30 +1,24 @@
-package com.example.dmbmatriculaservice.entity;
+package org.example.rdcmmatricula.entity;
 
-import com.example.dmbmatriculaservice.dto.CursoDto;
-import com.example.dmbmatriculaservice.dto.CursoDto;
 import jakarta.persistence.*;
-
+import org.example.rdcmmatricula.dato.Curso;
 
 @Entity
 public class MatriculaDetalle {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Integer cursoId;
 
     @Transient
-    private CursoDto cursoDto;
+    private Curso curso;
 
-    public MatriculaDetalle() {
+    public MatriculaDetalle() {}
 
-    }
-
-    public MatriculaDetalle(Integer id, Integer cursoId,CursoDto cursoDto ) {
+    public MatriculaDetalle(Integer id, Integer cursoId) {
         this.id = id;
         this.cursoId = cursoId;
-        this.cursoDto = cursoDto;
-
     }
 
     public Integer getId() {
@@ -43,13 +37,11 @@ public class MatriculaDetalle {
         this.cursoId = cursoId;
     }
 
-    public CursoDto getCursoDto() {
-        return cursoDto;
+    public Curso getCurso() {
+        return curso;
     }
 
-    public void setCursoDto(CursoDto cursoDto) {
-        this.cursoDto = cursoDto;
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
-
-
 }

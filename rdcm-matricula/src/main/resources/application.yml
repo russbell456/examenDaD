@@ -1,16 +1,9 @@
 spring:
   application:
-    name: dmb-matricula-service
+    name: rdcm-matricula-service
   profiles:
     active: development
   config:
     import: optional:configserver:http://root:123456@localhost:7070
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
-  endpoint:
-    health:
-      show-details: always
+
