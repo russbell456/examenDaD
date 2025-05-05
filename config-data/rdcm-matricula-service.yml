@@ -4,7 +4,6 @@ spring:
     username: postgres
     password: 123456
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,7 +22,7 @@ springdoc:
 
 eureka:
   client:
-    serviceUrl:
+    service-url:
       defaultZone: http://localhost:8090/eureka
   instance:
     hostname: localhost
@@ -38,7 +37,6 @@ resilience4j:
         slidingWindowType: TIME_BASED
         minimumNumberOfCalls: 4
         waitDurationInOpenState: 5s
-
       matriculaObtenerCB:
         registerHealthIndicator: true
         slidingWindowSize: 10
@@ -46,7 +44,6 @@ resilience4j:
         slidingWindowType: TIME_BASED
         minimumNumberOfCalls: 4
         waitDurationInOpenState: 5s
-
       matriculaRegistrarCB:
         registerHealthIndicator: true
         slidingWindowSize: 10
@@ -54,8 +51,3 @@ resilience4j:
         slidingWindowType: TIME_BASED
         minimumNumberOfCalls: 4
         waitDurationInOpenState: 5s
-
-  timelimiter:
-    instances:
-      default:
-        timeoutDuration: 5s

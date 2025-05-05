@@ -1,17 +1,17 @@
-package org.example.rdcmmatricula.controller;
+package com.example.dmbmatriculaservice.controller;
 
-import org.example.rdcmmatricula.entity.Matricula;
-import org.example.rdcmmatricula.service.MatriculaService;
+import com.example.dmbmatriculaservice.entity.Matricula;
+import com.example.dmbmatriculaservice.service.MatriculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/matriculas")
 public class MatriculaController {
-
     @Autowired
     private MatriculaService matriculaService;
 
@@ -21,15 +21,18 @@ public class MatriculaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Matricula> obtener(@PathVariable Integer id) {
-        return matriculaService.obtener(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Matricula> buscar(@PathVariable Integer id) {
+        return matriculaService.buscar(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Matricula> registrar(@RequestBody Matricula matricula) {
-        return ResponseEntity.ok(matriculaService.registrar(matricula));
+    public ResponseEntity<Matricula> guardar (@RequestBody Matricula matricula) {
+        return ResponseEntity.ok(matriculaService.guardar(matricula));
+    }
+
+    @PutMapping("/{id}")
+    public Matricula actualizar(@PathVariable Integer id, @RequestBody Matricula matricula) {
+        return matriculaService.actualizar(id, matricula);
     }
 
     @DeleteMapping("/{id}")

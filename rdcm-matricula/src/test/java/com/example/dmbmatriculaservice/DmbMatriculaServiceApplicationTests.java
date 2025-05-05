@@ -1,13 +1,13 @@
-package org.example.rdcmmatricula;
+package com.example.dmbmatriculaservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsMatriculaApplicationTests {
+class DmbMatriculaServiceApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
