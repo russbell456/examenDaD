@@ -1,6 +1,8 @@
 spring:
+  application:
+    name: dmb-matricula-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/rdcm-matricula
+    url: jdbc:postgresql://localhost:5432/ms-matricula
     username: postgres
     password: 123456
     driver-class-name: org.postgresql.Driver
@@ -9,6 +11,7 @@ spring:
       ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
 
 server:
   port: 8086
@@ -22,32 +25,28 @@ springdoc:
 
 eureka:
   client:
-    service-url:
+    serviceUrl:
       defaultZone: http://localhost:8090/eureka
   instance:
     hostname: localhost
 
-resilience4j:
-  circuitbreaker:
-    instances:
-      matriculaListarCB:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        permittedNumberOfCallsInHalfOpenState: 3
-        slidingWindowType: TIME_BASED
-        minimumNumberOfCalls: 4
-        waitDurationInOpenState: 5s
-      matriculaObtenerCB:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        permittedNumberOfCallsInHalfOpenState: 3
-        slidingWindowType: TIME_BASED
-        minimumNumberOfCalls: 4
-        waitDurationInOpenState: 5s
-      matriculaRegistrarCB:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        permittedNumberOfCallsInHalfOpenState: 3
-        slidingWindowType: TIME_BASED
-        minimumNumberOfCalls: 4
-        waitDurationInOpenState: 5s
+resilience4j.circuitbreaker:
+  intances:
+    matriculaListarPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      mininumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+    clienteListarPorIdCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      mininumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
