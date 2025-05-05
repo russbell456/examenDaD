@@ -4,12 +4,12 @@ spring:
     username: postgres
     password: 123456
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-
 
 server:
   port: 8086
@@ -31,7 +31,7 @@ eureka:
 resilience4j:
   circuitbreaker:
     instances:
-      matriculaRegistrarCB:
+      matriculaListarCB:
         registerHealthIndicator: true
         slidingWindowSize: 10
         permittedNumberOfCallsInHalfOpenState: 3
@@ -46,3 +46,16 @@ resilience4j:
         slidingWindowType: TIME_BASED
         minimumNumberOfCalls: 4
         waitDurationInOpenState: 5s
+
+      matriculaRegistrarCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 4
+        waitDurationInOpenState: 5s
+
+  timelimiter:
+    instances:
+      default:
+        timeoutDuration: 5s

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +30,7 @@ public class MatriculaServiceImpl implements MatriculaService {
     private CursoFeign cursoFeign;
 
     @Override
+    @CircuitBreaker(name = "matriculaListarCB", fallbackMethod = "fallbackListar")
     public List<Matricula> listar() {
         List<Matricula> matriculas = repository.findAll();
 
@@ -47,13 +48,32 @@ public class MatriculaServiceImpl implements MatriculaService {
     }
 
     @Override
-    @CircuitBreaker(name = "matriculaRegistrarCB", fallbackMethod = "FallBackMethodGuardar")
+    @CircuitBreaker(name = "matriculaObtenerCB", fallbackMethod = "fallbackObtener")
+    public Optional<Matricula> obtener(Integer id) {
+        Optional<Matricula> optionalMatricula = repository.findById(id);
+
+        optionalMatricula.ifPresent(matricula -> {
+            Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
+            matricula.setEstudiante(estudiante);
+
+            for (MatriculaDetalle detalle : matricula.getDetalles()) {
+                Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
+                detalle.setCurso(curso);
+            }
+        });
+
+        return optionalMatricula;
+    }
+
+    @Override
+    @CircuitBreaker(name = "matriculaRegistrarCB", fallbackMethod = "fallbackRegistrar")
     public Matricula registrar(Matricula matricula) {
         Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
         if (estudiante == null || !"Activo".equals(estudiante.getEstado())) {
             throw new RuntimeException("Estudiante no válido o inactivo");
         }
 
+        // Verifica si el estudiante ya se matriculó al curso
         List<Matricula> matriculasPrevias = repository.findByEstudianteId(estudiante.getId());
         for (MatriculaDetalle detalleNuevo : matricula.getDetalles()) {
             for (Matricula m : matriculasPrevias) {
@@ -74,57 +94,35 @@ public class MatriculaServiceImpl implements MatriculaService {
                 throw new RuntimeException("Curso no disponible o sin capacidad");
             }
 
+            // Reduce la capacidad en 1
             curso.setCapacidad(curso.getCapacidad() - 1);
             cursoFeign.actualizarCurso(curso.getId(), curso);
+
             detalle.setCurso(curso);
         }
 
         return repository.save(matricula);
     }
 
-    public Matricula FallBackMethodGuardar(Matricula matricula, Throwable t) {
-        System.err.println("🚨 Fallback registrar activado: " + t.getMessage());
-        matricula.setId(-1);
-        Estudiante errorEstudiante = new Estudiante();
-        errorEstudiante.setNombre("⚠️ Servicio de estudiante no disponible");
-        errorEstudiante.setEstado("Desconocido");
-        matricula.setEstudiante(errorEstudiante);
-        matricula.setDetalles(new ArrayList<>());
-        return matricula;
-    }
-
-    @Override
-    @CircuitBreaker(name = "matriculaObtenerCB", fallbackMethod = "FallBackMethodObtener")
-    public Optional<Matricula> obtener(Integer id) {
-        Optional<Matricula> optionalMatricula = repository.findById(id);
-
-        optionalMatricula.ifPresent(matricula -> {
-            Estudiante estudiante = estudianteFeign.obtenerPorId(matricula.getEstudianteId()).getBody();
-            matricula.setEstudiante(estudiante);
-
-            for (MatriculaDetalle detalle : matricula.getDetalles()) {
-                Curso curso = cursoFeign.obtenerPorId(detalle.getCursoId()).getBody();
-                detalle.setCurso(curso);
-            }
-        });
-
-        return optionalMatricula;
-    }
-
-    public Optional<Matricula> FallBackMethodObtener(Integer id, Throwable t) {
-        System.err.println("🚨 Fallback obtener activado para id " + id + ": " + t.getMessage());
-        Matricula fallback = new Matricula();
-        fallback.setId(-1);
-        Estudiante fallbackEstudiante = new Estudiante();
-        fallbackEstudiante.setNombre("⚠️ Servicio no disponible");
-        fallbackEstudiante.setEstado("Desconocido");
-        fallback.setEstudiante(fallbackEstudiante);
-        fallback.setDetalles(new ArrayList<>());
-        return Optional.of(fallback);
-    }
-
     @Override
     public void eliminar(Integer id) {
         repository.deleteById(id);
+    }
+
+    // --- MÉTODOS FALLBACK ---
+
+    public List<Matricula> fallbackListar(Throwable t) {
+        System.out.println("Fallback listar activado: " + t.getMessage());
+        return Collections.emptyList();
+    }
+
+    public Optional<Matricula> fallbackObtener(Integer id, Throwable t) {
+        System.out.println("Fallback obtener activado: " + t.getMessage());
+        return Optional.empty();
+    }
+
+    public Matricula fallbackRegistrar(Matricula matricula, Throwable t) {
+        System.out.println("Fallback registrar activado: " + t.getMessage());
+        throw new RuntimeException("El servicio de registro de matrícula no está disponible temporalmente");
     }
 }
