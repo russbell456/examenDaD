@@ -1,5 +1,6 @@
 package org.example.rdcmmatricula.controller;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.example.rdcmmatricula.entity.Matricula;
 import org.example.rdcmmatricula.service.MatriculaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,18 @@ public class MatriculaController {
     }
 
     @GetMapping("/{id}")
+    @CircuitBreaker(name = "matriculaListarPorIdCB", fallbackMethod = "fallbackMatriculaPorId")
     public ResponseEntity<Matricula> obtener(@PathVariable Integer id) {
         return matriculaService.obtener(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<Matricula> fallbackMatriculaPorId(Integer id, Throwable throwable) {
+        Matricula fallback = new Matricula();
+        fallback.setId(999);
+        fallback.setObservacion("No se pudo obtener la matrícula. Servicio no disponible.");
+        return ResponseEntity.ok(fallback);
     }
 
     @PostMapping

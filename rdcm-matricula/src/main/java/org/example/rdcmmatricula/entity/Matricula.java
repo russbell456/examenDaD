@@ -20,8 +20,11 @@ public class Matricula {
     private Estudiante estudiante;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "matricula_id")  // clave foránea en MatriculaDetalle
+    @JoinColumn(name = "matricula_id")
     private List<MatriculaDetalle> detalles;
+
+    @Transient
+    private String observacion;  // ✅ Agregado
 
     public Matricula() {}
 
@@ -81,5 +84,13 @@ public class Matricula {
 
     public void setDetalles(List<MatriculaDetalle> detalles) {
         this.detalles = detalles;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
     }
 }
