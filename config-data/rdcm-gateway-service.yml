@@ -1,19 +1,13 @@
-server:
-  port: 8085
-
-eureka:
-  client:
-    serviceUrl:
-      #defaultZone: http://localhost:8090/eureka
-      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
-  instance:
-    #hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+serviceUrl:
+  #defaultZone: http://localhost:8090/eureka
+  defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+instance:
+  #hostname: localhost
+  instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 spring:
   cloud:
     gateway:
-
       discovery:
         locator:
           enable: true
@@ -26,9 +20,11 @@ spring:
           uri: lb://rdcm-estudiante-service
           predicates:
             - Path=/estudiantes/**
-        - id: rdcm-matricula-service
+        - id: rdcm-matricula-services
           uri: lb://rdcm-matricula-service
           predicates:
             - Path=/matriculas/**
-
-
+        - id: ms-auth-service
+          uri: lb://ms-auth-service
+          predicates:
+            - Path=/auth/**
