@@ -1,3 +1,5 @@
+server:
+  port: 8080
 serviceUrl:
   #defaultZone: http://localhost:8090/eureka
   defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
